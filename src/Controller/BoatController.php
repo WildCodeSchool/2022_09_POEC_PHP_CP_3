@@ -28,7 +28,22 @@ class BoatController extends AbstractController
     {
         $boat = $boatRepository->findOneBy([]);
         $boat->setDirection($direction);
-        $em->flush();
+        
+        switch ($direction) {
+            case 'N':
+                $boat->setCoordY($boat->getCoordY() - 1);
+                break;
+            case 'S':
+                $boat->setCoordY($boat->getCoordY() + 1);
+                break;
+            case 'E':
+                $boat->setCoordX($boat->getCoordX() + 1);
+                break;
+            case 'W':
+                $boat->setCoordX($boat->getCoordX() - 1);
+                break;
+                }
+                $em->flush();
         return $this->redirectToRoute('map');
     }
 }
