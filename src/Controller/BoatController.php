@@ -32,10 +32,10 @@ class BoatController extends AbstractController
 
       switch($direction){
         case "N" :
-            $y++;
+            $y--;
             break;
         case "S" :
-            $y--;
+            $y++;
             break;
         case "E" :
             $x++;
