@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Boat;
 use App\Repository\BoatRepository;
+use App\Service\MapManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,4 +23,42 @@ class BoatController extends AbstractController
         $em->flush();
         return $this->redirectToRoute('map');
     }
+
+    #[Route('/move/direction/{direction}', name: 'moveDirection', requirements: ['direction' => '^[NSEW]$'])]
+    public function moveDirection(
+        string $direction,
+        BoatRepository $boatRepository,
+        EntityManagerInterface $em,
+        MapManager $mapManager
+    ): Response {
+        $boat = $boatRepository->findOneBy([]);
+        $x = $boat->getCoordX();
+        $y = $boat->getCoordY();
+
+        switch ($direction) {
+            case "N":
+                $y--;
+                break;
+            case "S":
+                $y++;
+                break;
+            case "E":
+                $x++;
+                break;
+            case "W":
+                $x--;
+                break;
+        }
+
+        if ($mapManager->tileExists($x, $y)) {
+            $boat->setCoordX($x);
+            $boat->setCoordY($y);
+            $em->flush();
+        } else {
+            $this->addFlash('danger', 'This tile doesn\'t exist');
+        }
+
+        return $this->redirectToRoute("map");
+    }
 }
+
