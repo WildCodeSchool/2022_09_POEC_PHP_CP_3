@@ -29,7 +29,6 @@ class BoatController extends AbstractController
     {
         $boat = $boatRepository->findOneBy([]);
         $boat->setDirection($direction);
-        $mapManagerService->tileExists($boat->getCoordX(), $boat->getCoordY());
     
         switch ($direction) {
             case 'N':
