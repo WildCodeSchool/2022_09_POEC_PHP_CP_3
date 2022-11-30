@@ -15,12 +15,26 @@ use Symfony\Component\Routing\Annotation\Route;
 class BoatController extends AbstractController
 {
     #[Route('/move/{x}/{y}', name: 'moveBoat', requirements: ['x' => '\d+', 'y' => '\d+'])]
-    public function moveBoat(int $x, int $y, BoatRepository $boatRepository, EntityManagerInterface $em): Response
-    {
-        $boat = $boatRepository->findOneBy([]);
-        $boat->setCoordX($x);
-        $boat->setCoordY($y);
-        $em->flush();
+    public function moveBoat(
+        int $x,
+        int $y,
+        BoatRepository $boatRepository,
+        EntityManagerInterface $em,
+        MapManager $mapManager
+    ): Response {
+        if ($mapManager->tileExists($x, $y)) {
+            $boat = $boatRepository->findOneBy([]);
+            $boat->setCoordX($x);
+            $boat->setCoordY($y);
+            $em->flush();
+
+            if ($mapManager->checkTreasure($boat)) {
+                $this->addFlash('success', 'You found the treasure.');
+            }
+        } else {
+            $this->addFlash('danger', 'This tile doesn\'t exist');
+        }
+
         return $this->redirectToRoute('map');
     }
 
