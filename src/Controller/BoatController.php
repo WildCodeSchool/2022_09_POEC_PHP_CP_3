@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\MapManagerService;
 
 #[Route('/boat')]
 class BoatController extends AbstractController
@@ -24,23 +25,32 @@ class BoatController extends AbstractController
     }
     
     #[Route('/direction/{direction}', name: 'directionBoat', requirements: ['direction' => 'N|S|E|W'])]
-    public function directionBoat(string $direction, BoatRepository $boatRepository, EntityManagerInterface $em): Response
+    public function directionBoat(string $direction, BoatRepository $boatRepository, EntityManagerInterface $em, MapManagerService $mapManagerService ) : Response
     {
         $boat = $boatRepository->findOneBy([]);
         $boat->setDirection($direction);
-        
+        $mapManagerService->tileExists($boat->getCoordX(), $boat->getCoordY());
+    
         switch ($direction) {
             case 'N':
-                $boat->setCoordY($boat->getCoordY() - 1);
+                if ($mapManagerService->tileExists($boat->getCoordX(), $boat->getCoordY() - 1)) {
+                    $boat->setCoordY($boat->getCoordY() - 1);
+                }
                 break;
             case 'S':
-                $boat->setCoordY($boat->getCoordY() + 1);
+                if ($mapManagerService->tileExists($boat->getCoordX(), $boat->getCoordY() + 1)) {
+                    $boat->setCoordY($boat->getCoordY() + 1);
+                }
                 break;
             case 'E':
-                $boat->setCoordX($boat->getCoordX() + 1);
+                if ($mapManagerService->tileExists($boat->getCoordX() + 1, $boat->getCoordY())) {
+                    $boat->setCoordX($boat->getCoordX() + 1);
+                }
                 break;
             case 'W':
-                $boat->setCoordX($boat->getCoordX() - 1);
+                if ($mapManagerService->tileExists($boat->getCoordX() - 1, $boat->getCoordY())) {
+                    $boat->setCoordX($boat->getCoordX() - 1);
+                }
                 break;
                 }
                 $em->flush();
