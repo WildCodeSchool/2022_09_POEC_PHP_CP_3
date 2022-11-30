@@ -8,6 +8,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Tile;
 use App\Repository\BoatRepository;
 use App\Repository\TileRepository;
+use App\Entity\Boat;
+use App\Service\MapManager;
 
 class MapController extends AbstractController
 {
@@ -26,5 +28,29 @@ class MapController extends AbstractController
             'map'  => $map ?? [],
             'boat' => $boat,
         ]);
+    }
+
+    #[Route('/start', name: 'start')]
+    public function start(BoatRepository $boatRepository, TileRepository $tileRepository, MapManager $mapManager): Response 
+    { 
+        $tiles = $tileRepository->findAll();
+
+        foreach ($tiles as $tile) {
+            $map[$tile->getCoordX()][$tile->getCoordY()] = $tile;
+        }
+
+        $boat = $boatRepository->findOneBy([]);
+        $boat->setCoordX(0);
+        $boat->setCoordY(0);       
+
+        if (isset($TreasureIsland)) {
+            $TreasureIsland->setHasTreasure(false);
+        }
+        $mapManager->getRandomIsland($tiles);
+
+    return $this->render('map/index.html.twig', [
+        'map'  => $map ?? [],
+        'boat' => $boat,
+    ]);
     }
 }
