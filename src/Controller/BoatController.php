@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Boat;
 use App\Repository\DirectionRepository;
+use App\Service\MapManager;
 use App\Repository\BoatRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,8 +26,12 @@ class BoatController extends AbstractController
     }
 
     #[Route('/direction/{coords}', name: 'moveDirection', requirements: ['coords' => '[NSEW]'])]
-    public function moveDirection(string $coords, BoatRepository $boatRepository, EntityManagerInterface $em): Response
-    {
+    public function moveDirection(
+        string $coords,
+        BoatRepository $boatRepository,
+        EntityManagerInterface $em,
+        MapManager $mapManager
+    ): Response {
         $boat = $boatRepository->findOneBy([]);
         $x = $boat->getCoordX();
         $y = $boat->getCoordY();
@@ -43,6 +48,11 @@ class BoatController extends AbstractController
             case 'W':
                 $x--;
                 break;
+        }
+
+        if (!$mapManager->tileExists($x, $y)) {
+            //insert error message
+            return $this->redirectToRoute('map');
         }
         $boat->setCoordX($x);
         $boat->setCoordY($y);
