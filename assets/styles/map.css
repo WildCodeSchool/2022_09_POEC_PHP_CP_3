@@ -113,6 +113,40 @@
     padding-top: 0.2em;
 }
 
+.navigation .buttons a {
+    color: white;
+    display: block;
+    font-family: var(--main-font);
+    font-size: 16pt;
+    margin: 0;
+    position: relative;
+    text-align: center;
+    transition: ease-out 100ms;
+    width: 20px;
+}
+
+.navigation .buttons a:hover {
+    text-decoration: none;
+    transform: scale(2);
+}
+
+.navigation .buttons a.N {
+    left: calc(50% - 10px);
+}
+
+.navigation .buttons a.S {
+    left: calc(50% - 10px);
+    top: 6.5rem;
+}
+
+.navigation .buttons a.E {
+    left: calc(100% - 20px);
+}
+
+.navigation .buttons a.W {
+    bottom: 32px;
+}
+
 .infos {
     background-image: url('../images/map.jpg');
     width: 100%;
@@ -120,6 +154,13 @@
     margin-top: 1em;
     padding: 1em;
     padding-top: 0.2em;
+}
+
+.infos p {
+    color: white;
+    font-family: var(--main-font);
+    font-size: 14pt;
+    margin: 0.2rem;
 }
 
 h2 {

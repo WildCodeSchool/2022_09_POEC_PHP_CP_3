@@ -55,8 +55,10 @@
 						Information
 					</h2>
 					{# Add here informations about current ship position #}
-					<p>Coordinates: {{ boat.coordX }}; {{ boat.coordY }}</p>
-					<p>Type of tile: {{ boatTile.type|capitalize }}</p>
+					<p>Coordinates:</p>
+					<p>{{ boat.coordX }}; {{ boat.coordY }}</p>
+					<p>Type of tile:</p>
+					<p>{{ boatTile.type|capitalize }}</p>
 				</div>
 				<div
 					class="navigation">
@@ -64,10 +66,12 @@
 						Navigation
 					</h2>
 					{# Add here N/S/E/W buttons #}
-					<a href="/boat/move/direction/N">North</button>
-					<a href="/boat/move/direction/S">South</button>
-					<a href="/boat/move/direction/E">East</button>
-					<a href="/boat/move/direction/W">West</button>
+					<div class="buttons">
+						<a href="/boat/move/direction/N" class="N">N</button>
+						<a href="/boat/move/direction/S" class="S">S</button>
+						<a href="/boat/move/direction/E" class="E">E</button>
+						<a href="/boat/move/direction/W" class="W">W</button>
+					</div>
 				</div>
 			</div>
 		</div>
