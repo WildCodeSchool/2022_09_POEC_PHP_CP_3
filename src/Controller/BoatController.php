@@ -4,6 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Boat;
 use App\Repository\BoatRepository;
+use App\Entity\Tile;
+use App\Repository\TileRepository;
+use App\Service\MapManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,25 +28,34 @@ class BoatController extends AbstractController
     }
 
     #[Route('/direction/{coordinate}', name: 'moveDirection', requirements: ['coordinate' => '/|N|S|E|W|/i'])]
-    public function moveDirection(BoatRepository $boatRepository, EntityManagerInterface $em, string $coordinate): Response
-    {
+    public function moveDirection(
+        BoatRepository $boatRepository,
+        EntityManagerInterface $em,
+        TileRepository $tileRepository,
+        string $coordinate,
+    ): Response {
         $boat = $boatRepository->findOneBy([]);
 
-        switch ($coordinate) {
-            case 'N':
-                $boat->setCoordY($boat->getCoordY() - 1);
-                break;
-            case 'S':
-                $boat->setCoordY($boat->getCoordY() + 1);
-                break;
-            case 'E':
-                $boat->setCoordX($boat->getCoordX() + 1);
-                break;
-            case 'W':
-                $boat->setCoordX($boat->getCoordX() - 1);
-                break;
+        $mapManager = new MapManager();
+        $x = $boat->getCoordX();
+        $y = $boat->getCoordY();
+        if ($mapManager->tileExists($x, $y, $tileRepository)) {
+            switch ($coordinate) {
+                case 'N':
+                    $boat->setCoordY($boat->getCoordY() - 1);
+                    break;
+                case 'S':
+                    $boat->setCoordY($boat->getCoordY() + 1);
+                    break;
+                case 'E':
+                    $boat->setCoordX($boat->getCoordX() + 1);
+                    break;
+                case 'W':
+                    $boat->setCoordX($boat->getCoordX() - 1);
+                    break;
+            }
+            $em->flush();
+            return $this->redirectToRoute('map');
         }
-        $em->flush();
-        return $this->redirectToRoute('map');
     }
 }
