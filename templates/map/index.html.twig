@@ -55,6 +55,9 @@
 						Information
 					</h2>
 					{# Add here informations about current ship position #}
+
+					<h4>The {{ boat.name }} coordinates are: {{ boat.coordX }}, {{ boat.coordY }}</h4>
+					
 				</div>
 				<div
 					class="navigation">
@@ -62,6 +65,10 @@
 						Navigation
 					</h2>
 					{# Add here N/S/E/W buttons #}
+					<a href="/boat/direction/n">Go Nord<h2> &uarr;</h2></a><br>
+					<a href="/boat/direction/s">Go South<h2> &darr;</h2></a><br>
+					<a href="/boat/direction/w">Go West<h2> &larr;</h2></a><br>
+					<a href="/boat/direction/e">Go East<h2> &rarr;</h2></a>
 				</div>
 			</div>
 		</div>

@@ -16,6 +16,7 @@ class MapController extends AbstractController
     {
         $tiles = $tileRepository->findAll();
 
+
         foreach ($tiles as $tile) {
             $map[$tile->getCoordX()][$tile->getCoordY()] = $tile;
         }
