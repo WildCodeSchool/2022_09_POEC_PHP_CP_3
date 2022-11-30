@@ -55,6 +55,11 @@
 						Information
 					</h2>
 					{# Add here informations about current ship position #}
+
+            <p>coordonnée X:  {{ boat.coordX }}</p>
+            <p>coordonnée Y:  {{ boat.coordY }}</p>
+            <p>Endroit en :  {{ map[boat.coordX][boat.coordY].type}}</p>
+
 				</div>
 				<div
 					class="navigation">
