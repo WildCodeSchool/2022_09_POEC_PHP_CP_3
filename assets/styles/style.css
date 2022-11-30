@@ -9,7 +9,7 @@
     --main-font: 'Pirata One', cursive;
     --text-size: 14pt;
 
-    --navbar-size:70px;
+    --navbar-size: 70px;
     --container-size: 800px;
 
     --spacing: 8px;
@@ -32,7 +32,18 @@ nav {
     font-size: 1.3rem;
 }
 
-h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
     font-family: var(--main-font);
     color: var(--light);
 }
@@ -71,14 +82,14 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     border-radius: 4px;
 }
 
-    
-.instructions >li {
+
+.instructions>li {
     padding-top: var(--spacing);
     padding-bottom: var(--spacing);
-    border-bottom:1px solid var(--light);
+    border-bottom: 1px solid var(--light);
 }
 
-.instructions > li::first-letter {
+.instructions>li::first-letter {
     font-family: var(--main-font);
     font-size: 1.3em;
 }
@@ -100,6 +111,5 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 blockquote {
     font-style: italic;
-    margin-top:0.5em;
+    margin-top: 0.5em;
 }
-
