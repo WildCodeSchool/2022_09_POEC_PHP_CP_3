@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Repository\TileRepository;
+use App\Entity\Tile;
 
 class MapManager
 {
@@ -32,4 +33,17 @@ class MapManager
 
     }
 
+    public function getRandomIsland(array $tiles): Tile
+    {
+      $islands= [];
+      foreach ($tiles as $tile) {
+        if($tile->getType() === 'island'){
+          $islands[] = $tile;
+        }
+      }
+      $tresor = array_rand($islands, 1);
+      $islandTreasure = $islands[$tresor]->setHasTreasure(true);
+      return $islandTreasure;
+
+    }
 }
