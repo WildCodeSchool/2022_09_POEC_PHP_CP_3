@@ -54,6 +54,10 @@ class BoatController extends AbstractController
             $boat->setCoordX($x);
             $boat->setCoordY($y);
             $em->flush();
+
+            if ($mapManager->checkTreasure($boat)) {
+                $this->addFlash('success', 'You found the treasure.');
+            }
         } else {
             $this->addFlash('danger', 'This tile doesn\'t exist');
         }
