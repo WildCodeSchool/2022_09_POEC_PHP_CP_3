@@ -71,4 +71,14 @@ class Boat
 
         return $this;
     }
+
+    public function getDirection(): ?string
+    {
+        return $this->$direction;
+    }
+
+    public function setDirection(string $direction): ?string
+    {
+        return $this->$direction = $direction;
+    }
 }
